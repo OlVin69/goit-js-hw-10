@@ -4,46 +4,41 @@ import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 
 
-const inputTimer = document.querySelector('#datetime-picker');
-const startButton = document.querySelector('button');
-const daysEl = document.querySelector('[data-days]');
-const hoursEl = document.querySelector('[data-hours]');
-const minutesEl = document.querySelector('[data-minutes]');
-const secondsEl = document.querySelector('[data-seconds]');
-
-let userSelectedDate = '';
+const inputTimer = document.querySelector('#datetime-picker'); 
+const startButton = document.querySelector('button'); 
+const daysEl = document.querySelector('[data-days]'); 
+const hoursEl = document.querySelector('[data-hours]'); 
+const minutesEl = document.querySelector('[data-minutes]'); 
+const secondsEl = document.querySelector('[data-seconds]'); 
+let userSelectedDate = ''; 
+startButton.setAttribute('disabled', true); 
 
 const options = {
-    enableTime: true,
-    time_24hr: true,
-    defaultDate: new Date(),
-    minuteIncrement: 1,
-    onClose(selectedDates) {
+    enableTime: true,     
+    time_24hr: true, 
+    defaultDate: new Date(), 
+    minuteIncrement: 1, 
+    onClose(selectedDates) {   
         if (selectedDates.length > 0) {
             const selectedDate = selectedDates[0];
             userSelectedDate = selectedDate;
 
-          
-            if (selectedDate.getTime() > new Date().getTime()) {
-                startButton.removeAttribute('disabled');
-            } else {
+            if (selectedDate <= Date.now()) {
                 startButton.setAttribute('disabled', true);
-                iziToast.error({ title: 'Error', message: 'Please choose a date in the future', position:'topRight', backgroundColor: 'red', });
+                return  iziToast.error({ title: 'Error', message: 'Please choose a date in the future', position:'topRight', backgroundColor: 'red', });
             }
+            startButton.removeAttribute('disabled')  
         }
-    }
-       
+    }      
 };
 
 flatpickr(inputTimer, options);
 
-
-
 const addLeadingZero = (value) => String(value).padStart(2, '0');
 
 const updateTimer = () => {
-      const currentTime = new Date().getTime();
-      const timeDifference = userSelectedDate.getTime() - currentTime;
+      const currentTime = Date.now();
+      const timeDifference = userSelectedDate - currentTime;
 
       if (timeDifference <= 0) {
         
@@ -75,6 +70,5 @@ const convertMs = (ms) => {
 
     startButton.addEventListener('click', () => {
       startButton.setAttribute('disabled', true);
-      timerInterval = setInterval(updateTimer, 1000);
-      updateTimer();
-    });
+        timerInterval = setInterval(updateTimer, 1000);
+     });
