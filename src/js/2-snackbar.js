@@ -10,13 +10,10 @@ formEl.addEventListener('submit', (event) => {
     const delay = parseInt(delayEl.value);
     const selectedState = Array.from(stateElements).find(input => input.checked);
 
+    formEl.reset();
+    
     if (!isNaN(delay) && selectedState) {
         const promise = new Promise((resolve, reject) => {
-            // if (selectedState.value === 'fulfilled') {
-            //     setTimeout(() => { resolve(delay) }, delay)
-            // } else {
-            //     setTimeout(() => { reject(delay) }, delay)
-            // }
             setTimeout(() => {
                 if (selectedState.value === 'fulfilled') {
                     resolve(delay);
@@ -25,7 +22,7 @@ formEl.addEventListener('submit', (event) => {
                 }
             }, delay);
         });
-        
+
         promise
             .then(
             (value) => {
@@ -50,5 +47,5 @@ formEl.addEventListener('submit', (event) => {
             }
         )
     }
-    formEl.reset();
+    
 })
