@@ -12,12 +12,20 @@ formEl.addEventListener('submit', (event) => {
 
     if (!isNaN(delay) && selectedState) {
         const promise = new Promise((resolve, reject) => {
-            if (selectedState.value === 'fulfilled') {
-                setTimeout(() => { resolve(delay) }, delay)
-            } else {
-                setTimeout(() => { reject(delay) }, delay)
-            }
+            // if (selectedState.value === 'fulfilled') {
+            //     setTimeout(() => { resolve(delay) }, delay)
+            // } else {
+            //     setTimeout(() => { reject(delay) }, delay)
+            // }
+            setTimeout(() => {
+                if (selectedState.value === 'fulfilled') {
+                    resolve(delay);
+                } else {
+                    reject(delay);
+                }
+            }, delay);
         });
+        
         promise
             .then(
             (value) => {
